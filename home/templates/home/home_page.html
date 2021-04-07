@@ -1,0 +1,200 @@
+
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailsettings_tags wagtailimages_tags %}
+{% get_settings use_default_site=True %}
+{% block extra_css %}{% endblock extra_css %}
+{% block breadcrumbs %}{% endblock %}
+
+
+{% block content %}
+
+
+    <div class="slider -style-1 slider-arrow-middle">
+      <div class="slider__carousel">
+        {% for item in page.banner_item.all %}
+          <div class="slider__carousel__item slider-1">
+          <div class="container">
+            <div class="slider-background">
+              
+              {% image item.image fill-1920x550 alt=item.title %}
+            </div>
+            <div class="slider-content">
+              <h5 class="slider-content__subtitle" data-animation-in="fadeInUp" data-animation-delay="0.1">{{item.title}}</h5>
+              <h1 class="slider-content__title" data-animation-in="fadeInUp" data-animation-delay="0.2">{{item.desc}}
+              </h1>
+              {% if item.select_page != None %}<div data-animation-in="fadeInUp" data-animation-out="fadeInDown" data-animation-delay="0.4"><a class="btn -red" href="{% pageurl item.select_page %}">Перейти</a></div>{% endif %}
+              
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+<div class="introduction-one">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 col-md-6">
+        <div class="introduction-one-image">
+          <div class="introduction-one-image__detail">
+              {% if item.onas_image1 %}{% image item.onas_image1 fill-390x455 %}{% else %}<img src="/static/assets/images/introduction/IntroductionOne/img1.png" alt="background"/>{% endif %}
+               
+              
+              {% if item.onas_image2  %}{% image item.onas_image2 fill-370x440 %}{% else%}  <img src="/static/assets/images/introduction/IntroductionOne/img2.png" alt="background"/>{% endif %}
+             
+              
+              </div>
+          <div class="introduction-one-image__background">
+            <div class="background__item">
+              <div class="wrapper" ref="{bg1}">
+                  <img data-depth="0.5" src="/static/assets/images/introduction/IntroductionOne/bg1.png" alt="background"/></div>
+            </div>
+            <div class="background__item">
+              <div class="wrapper" ref="{bg2}"
+              ><img data-depth="0.3" data-invert-x="" data-invert-y="" src="/static/assets/images/introduction/IntroductionOne/bg2.png" alt="background"/></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="introduction-one-content">
+          
+                <div class="section-title " style="margin-bottom: 1.875em">
+                  <h2>{% if item.onas_title %}{{item.onas_title}}{% else%}Заголовок о нас{%endif%}</h2><img src="/static/assets/images/introduction/IntroductionOne/content-deco.png" alt="Decoration"/>
+                </div>
+          <p>{% if item.onas_desc  %}{{item.onas_desc}}{%else%}Какой то нейтральный текст{%endif%}</p><a class="btn -white"   href="{% if item.onas_page %}{% pageurl item.onas_page %}{% endif %}">Перейти</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="testimonial">
+        <div class="section-title -center" style="margin-bottom: 3.125rem">
+
+          <h2>Нам доверяют наши заказчики и партнеры</h2><img src="/static/assets/images/introduction/IntroductionOne/content-deco.png" alt="Decoration"/>
+        </div>
+  <div class="container">
+    <div class="testimonial-slider">
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <div class="slide-nav">
+            <div class="slide-nav__wrapper">
+                {% for i in page.PartnersLogo.all %}
+                    <div class="slide-nav__item" key="{{forloop.counter0}}" style="width: 25%; display: inline-block;">
+                        {% image i.image fill-130x130  style="height:auto" %}
+                    </div>
+                {% endfor %}
+   
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="slide-for">
+            <div class="slide-for__wrapper">
+                {% for i in page.PartnersLogo.all %}
+              <div class="slide-for__item " data-slick-index="{{forloop.counter0}}">
+                <div class="slide-for__item__header">
+                  <div class="quote-icon"><i class="fas fa-quote-right"></i></div>
+                  <div class="customer__info">
+                    <h3>{{i.title}}</h3>
+                    
+                  </div>
+                        
+                </div>
+                <p class="slide-for__item__content">
+                    {{i.desc}}</p>
+              </div>
+              {% endfor %}
+            </div>
+            <div class="testimonial-one__slider-control"><a class="prev" href="#"><i class="far fa-angle-left"> </i>Назад</a><a class="next" href="#">Вперед<i class="far fa-angle-right"> </i></a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% if page.yt_videos.length != 0 %}
+<div class="team-one">
+  <div class="container">
+          <div class="section-title -center" style="margin-bottom: 1.875em">
+            <h2>YouTube канал</h2><img src="/static/assets/images/introduction/IntroductionOne/content-deco.png" alt="Decoration"/>
+          </div>
+          
+             <div id="js-carousel-1" class="owl-carousel">
+
+  
+   {% for block in  page.yt_videos %}
+                
+                 <div class="carousel-item"> {% include_block block %}</div>
+                 
+               
+                {%endfor%}
+
+</div>
+              
+                 
+               
+             
+           
+
+ 
+
+  </div>
+</div>
+{% endif %}
+{% image settings.home.PhotoMainPageSettings.contact_photo fill-1920x680 as tmp_photo %}
+
+<div class="cta -style-1" id="subscrible-head" style="background-image: url({{tmp_photo.url}})">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-6 mx-auto" style="margin:8px">
+        <div class="cta__form">
+                <div class="section-title " style="margin-bottom: 1.875em">
+                  <h2>Напишите нам</h2>
+                </div>
+          <form class="cta__form__detail validated-form" action="#">
+            <div class="input-validator">
+              <input type="text" placeholder="Ваше имя" name="name" required="required"/>
+            </div>
+            <div class="input-validator">
+              <input type="email" placeholder="Ваш адрес эл. почты" name="email" required="required"/>
+            </div>
+            <div class="input-validator">
+              <textarea name="text" id="" cols="30" rows="10" placeholder="Введите текст..."></textarea>
+            </div>
+
+                  <button class="btn -light-red">Отправить
+                  </button>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+{% endblock content %}
+
+{% block extra_js %}
+$(document).ready(function(){
+  $('#js-carousel-1').owlCarousel({
+  items: 3 ,
+  loop: true,
+ autoplay: true,
+  autoplayTimeout: 5000,
+  // Отступ
+  videoHeight:600,
+  autoWidth:true,
+  video:true,
+  margin: 10,
+  center:true,
+});
+});
+{% endblock extra_js %}
